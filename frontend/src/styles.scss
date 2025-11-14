@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+/* Custom Theme Variables */
+$primary-color: #1976d2;
+$accent-color: #ff4081;
+$warn-color: #f44336;
+
+/* Global Styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f5f5f5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Material Theme Customization will go here */
+/* TODO: Create custom theme in _theme.scss */
