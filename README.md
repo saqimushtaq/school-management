@@ -108,7 +108,7 @@ Frontend will be available at: http://localhost:4200
 ## API Documentation
 
 Once the backend is running, access Swagger UI at:
-http://localhost:8080/api/swagger-ui.html
+http://localhost:8080/swagger-ui.html
 
 ## Documentation
 
