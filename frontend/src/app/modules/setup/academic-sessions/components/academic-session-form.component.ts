@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AcademicSessionStore } from '../store/academic-session.store';
 import { AcademicSessionResponse } from '../models/academic-session.model';
@@ -28,6 +28,7 @@ import { AcademicSessionResponse } from '../models/academic-session.model';
     MatNativeDateModule,
     MatCheckboxModule
   ],
+  providers: [provideNativeDateAdapter()],
   template: `
     <h2 mat-dialog-title>{{ isEditMode ? 'Edit' : 'Create' }} Academic Session</h2>
 

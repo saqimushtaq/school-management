@@ -12,6 +12,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AcademicSessionStore } from '../store/academic-session.store';
 import { AcademicSessionResponse } from '../models/academic-session.model';
 import { AcademicSessionFormComponent } from './academic-session-form.component';
+import {provideNativeDateAdapter} from '@angular/material/core';
 
 /**
  * Component to display list of Academic Sessions
@@ -30,6 +31,7 @@ import { AcademicSessionFormComponent } from './academic-session-form.component'
     MatSnackBarModule,
     MatDialogModule
   ],
+  providers: [provideNativeDateAdapter()],
   template: `
     <div class="session-list-container">
       <mat-card>
