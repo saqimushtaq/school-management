@@ -1,44 +1,180 @@
-.login-container {
+// ============================================================================
+// Login Page - Professional School Management Design
+// ============================================================================
+
+.login-wrapper {
   display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
+  background-color: #ffffff;
+}
+
+// ============================================================================
+// Left Side - Branding Section
+// ============================================================================
+
+.branding-section {
+  flex: 1;
+  background: linear-gradient(135deg, #005ecf 0%, #003986 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+
+  // Decorative background pattern
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.3;
+    animation: backgroundMove 60s linear infinite;
+  }
+
+  @keyframes backgroundMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(30px, 30px); }
+  }
+}
+
+.branding-content {
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  color: white;
+  text-align: center;
+}
+
+.school-logo {
+  margin-bottom: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  .logo-icon {
+    font-size: 56px;
+    width: 56px;
+    height: 56px;
+    color: white;
+  }
+}
+
+.brand-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: white;
+  letter-spacing: -0.02em;
+}
+
+.brand-tagline {
+  font-size: 1.25rem;
+  margin-bottom: 48px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(8px);
+  }
+
+  mat-icon {
+    color: #10b981;
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+
+  span {
+    font-size: 1rem;
+    color: white;
+    font-weight: 500;
+  }
+}
+
+// ============================================================================
+// Right Side - Login Form Section
+// ============================================================================
+
+.login-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background-color: #f8f9fa;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 460px;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #6b7280;
+    margin: 0;
+  }
 }
 
 .login-card {
-  width: 100%;
-  max-width: 400px;
-  padding: 20px;
-
-  mat-card-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 24px;
-
-    mat-card-title {
-      font-size: 24px;
-      font-weight: 600;
-      text-align: center;
-      margin-bottom: 8px;
-    }
-
-    mat-card-subtitle {
-      font-size: 14px;
-      text-align: center;
-      opacity: 0.7;
-    }
-  }
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+  padding: 0 !important;
 
   mat-card-content {
-    padding: 0;
+    padding: 40px !important;
 
     form {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 20px;
     }
   }
 }
@@ -47,15 +183,51 @@
   width: 100%;
 }
 
-.error-message {
+.error-alert {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px;
-  background-color: #ffebee;
-  color: #c62828;
-  border-radius: 4px;
+  gap: 12px;
+  padding: 14px 16px;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  border-radius: 8px;
   font-size: 14px;
+  margin-bottom: 4px;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: #dc2626;
+  }
+}
+
+.login-button {
+  margin-top: 8px;
+  height: 52px;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 94, 207, 0.3) !important;
+  transition: all 0.2s ease;
+
+  &:not(:disabled):hover {
+    box-shadow: 0 8px 12px -2px rgba(0, 94, 207, 0.4) !important;
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+
+  .button-spinner {
+    display: inline-block;
+  }
 
   mat-icon {
     font-size: 20px;
@@ -64,29 +236,110 @@
   }
 }
 
-.login-button {
-  margin-top: 8px;
-  height: 48px;
-  font-size: 16px;
-  font-weight: 500;
+.login-footer {
+  margin-top: 32px;
+  text-align: center;
 
-  &:disabled {
-    opacity: 0.6;
-  }
+  .copyright {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 0.875rem;
+    color: #9ca3af;
+    margin: 0;
 
-  .button-spinner {
-    display: inline-block;
-    margin-right: 8px;
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      color: #9ca3af;
+    }
   }
 }
 
-// Responsive design
-@media (max-width: 600px) {
-  .login-card {
-    padding: 16px;
+// ============================================================================
+// Responsive Design
+// ============================================================================
 
-    mat-card-header mat-card-title {
-      font-size: 20px;
+@media (max-width: 1024px) {
+  .branding-section {
+    padding: 40px;
+  }
+
+  .brand-title {
+    font-size: 2.5rem;
+  }
+
+  .brand-tagline {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-wrapper {
+    flex-direction: column;
+  }
+
+  .branding-section {
+    min-height: 300px;
+    padding: 40px 20px;
+
+    &::before {
+      display: none;
     }
+  }
+
+  .branding-content {
+    max-width: 100%;
+  }
+
+  .school-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 24px;
+
+    .logo-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  .brand-title {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+
+  .brand-tagline {
+    font-size: 1rem;
+    margin-bottom: 32px;
+  }
+
+  .features-list {
+    display: none;
+  }
+
+  .login-section {
+    padding: 32px 20px;
+  }
+
+  .login-header h2 {
+    font-size: 1.75rem;
+  }
+
+  .login-card mat-card-content {
+    padding: 28px 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card mat-card-content {
+    padding: 24px 20px !important;
+  }
+
+  .login-button {
+    height: 48px;
+    font-size: 15px;
   }
 }
