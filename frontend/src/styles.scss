@@ -49,6 +49,7 @@ $custom-accent: (
 html {
   @include mat.theme((
     color: (
+      theme-type: light,
       primary: $custom-primary,
       tertiary: $custom-accent,
     ),
