@@ -46,7 +46,7 @@ springdoc:
 # Application Specific Configuration
 app:
   jwt:
-    secret: ${JWT_SECRET:your-secret-key-change-this-in-production}
+    secret: ${JWT_SECRET:c21hcnRzY2hvb2wtand0LXNlY3JldC1rZXktZm9yLWRldmVsb3BtZW50LW9ubHktY2hhbmdlLWluLXByb2R1Y3Rpb24=}
     expiration-ms: 86400000 # 24 hours
   file-storage:
     upload-dir: ${FILE_UPLOAD_DIR:./uploads}
