@@ -4,61 +4,30 @@
 
 @use '@angular/material' as mat;
 
-// Custom Color Palette for Educational Institution
-// Primary: Deep Blue (Trust, Knowledge, Stability)
-// Accent: Vibrant Orange (Energy, Creativity, Youth)
-$custom-primary: (
-  0: #000000,
-  10: #001a41,
-  20: #002d6e,
-  25: #003986,
-  30: #00459e,
-  35: #0052b6,
-  40: #005ecf,
-  50: #0076ff,
-  60: #4d93ff,
-  70: #7aafff,
-  80: #a3c9ff,
-  90: #d0e4ff,
-  95: #e8f2ff,
-  98: #f7faff,
-  99: #fcfcff,
-  100: #ffffff,
-);
+// Include core styles
+@include mat.core();
 
-$custom-accent: (
-  0: #000000,
-  10: #2d1600,
-  20: #4a2800,
-  25: #593000,
-  30: #693900,
-  35: #794200,
-  40: #894b00,
-  50: #aa6400,
-  60: #cc7e00,
-  70: #ef9900,
-  80: #ffb547,
-  90: #ffd699,
-  95: #ffebcc,
-  98: #fff5e6,
-  99: #fffaf2,
-  100: #ffffff,
-);
+// Define custom theme using Material 3 (Angular Material 20)
+// Primary: Deep Blue (#005ecf) - Trust, Knowledge, Stability
+// Tertiary: Vibrant Orange (#ef9900) - Energy, Creativity, Youth
+$theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$blue-palette,
+    tertiary: mat.$orange-palette,
+  ),
+  typography: (
+    brand-family: 'Inter, "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    plain-family: 'Inter, "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  ),
+  density: (
+    scale: -1
+  ),
+));
 
-// Apply the custom theme
+// Apply the theme
 html {
-  @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: $custom-primary,
-      tertiary: $custom-accent,
-    ),
-    typography: (
-      brand-family: 'Inter, "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      plain-family: 'Inter, "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    ),
-    density: -1,
-  ));
+  @include mat.all-component-themes($theme);
 }
 
 // ============================================================================
