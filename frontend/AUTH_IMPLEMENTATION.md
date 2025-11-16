@@ -49,11 +49,11 @@ The authentication system is built using Angular 20 with JWT (JSON Web Tokens) f
 
 #### Login Component (`/features/auth/login/`)
 - **Features**:
-  - Material Design UI with form validation
+  - Modern Bootstrap UI with custom styling and form validation
   - Password visibility toggle
   - Loading state during authentication
   - Error message display
-  - Responsive design
+  - Responsive design with professional split-screen layout
 
 #### Unauthorized Component (`/features/auth/unauthorized/`)
 - **Purpose**: Display access denied message
