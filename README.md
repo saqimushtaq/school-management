@@ -18,7 +18,7 @@ SmartSchool is designed to streamline the operational needs of educational insti
 ### Frontend
 - **Framework:** Angular 20+
 - **Language:** TypeScript
-- **UI Library:** Angular Material 3
+- **UI Library:** Bootstrap 5 with ng-bootstrap
 - **State Management:** NgRx Signal Stores
 
 ## Project Structure

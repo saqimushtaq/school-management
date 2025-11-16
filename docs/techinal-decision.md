@@ -32,7 +32,7 @@ This document outlines the key architectural, technological, and procedural deci
 #### **Frontend**
 *   **Framework:** **Angular 20+**
 *   **Language:** TypeScript
-*   **UI Library:** **Angular Material 3 (M3)**.
+*   **UI Library:** **Bootstrap 5** with **ng-bootstrap** for Angular integration.
 *   **State Management:** **NgRx Signal Stores**.
 *   **Forms:** **ReactiveFormsModule** for all complex forms.
 *   **Validation:**  with Reactive Forms.
@@ -52,13 +52,13 @@ This document outlines the key architectural, technological, and procedural deci
 
 ### **4. UI/UX & Theming Strategy**
 
-*   **Goal:** To create a professional, unique, and branded application that avoids the generic "Google look."
-*   **Method:** Customization of Angular Material 3 via a centralized **SCSS theme**.
+*   **Goal:** To create a professional, unique, and branded application with a modern, clean design.
+*   **Method:** Customization of Bootstrap 5 via a centralized **SCSS theme** and custom CSS variables.
 *   **Key Customization Areas:**
-    1.  **Custom Theme:** Define a unique color palette (primary, accent, warn) and typography in a dedicated `_theme.scss` file.
-    2.  **Component Styling:** Use `::ng-deep` or component-scoped styles to override default Material component styles (e.g., cards, buttons, tables).
-    3.  **Custom Layouts:** Build custom layout components, specifically a sidebar navigation, instead of relying solely on a top toolbar.
-    4.  **Style Guide:** Develop a dedicated "style guide" page during initial development to finalize the look and feel before building out full application pages.
+    1.  **Custom Theme:** Define a unique color palette (primary, accent, semantic colors) and typography using CSS custom properties in `styles.scss`.
+    2.  **Component Styling:** Override Bootstrap component styles using custom SCSS to create a distinctive look for cards, buttons, tables, forms, and modals.
+    3.  **Custom Layouts:** Build custom layout components, including a professional sidebar navigation with collapsible menu and top header with user menu.
+    4.  **Responsive Design:** Ensure all components are fully responsive with mobile-first approach and proper breakpoints.
 
 ---
 
@@ -77,6 +77,7 @@ This document outlines the key architectural, technological, and procedural deci
 
 *   **Backend:** Use **Spring Boot DevTools** for automatic restarts and faster iteration.
 *   **Frontend:** Use the **Angular CLI** for all code generation (components, services, etc.).
+*   **UI Components:** Leverage **ng-bootstrap** components (modals, dropdowns, accordions) for interactive UI elements with native Bootstrap integration.
 *   **State Management:** Utilize **NgRx Signal Stores** to manage shared state, loading indicators, and error handling centrally.
 *   **API Design:** Adhere to a RESTful API design. The backend will serve JSON, and the frontend will consume it via the `HttpClient`.
 
