@@ -1,13 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NgbActiveModal, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AcademicSessionStore } from '../store/academic-session.store';
 import { AcademicSessionResponse } from '../models/academic-session.model';
 
@@ -20,112 +14,163 @@ import { AcademicSessionResponse } from '../models/academic-session.model';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCheckboxModule
+    NgbDatepickerModule
   ],
-  providers: [provideNativeDateAdapter()],
   template: `
-    <h2 mat-dialog-title>{{ isEditMode ? 'Edit' : 'Create' }} Academic Session</h2>
+    <div class="modal-header">
+      <h5 class="modal-title">{{ isEditMode ? 'Edit' : 'Create' }} Academic Session</h5>
+      <button type="button" class="btn-close" (click)="onCancel()"></button>
+    </div>
 
-    <mat-dialog-content>
+    <div class="modal-body">
       <form [formGroup]="sessionForm" class="session-form">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Session Name</mat-label>
-          <input matInput formControlName="name" placeholder="e.g., 2024-2025">
+        <div class="mb-3">
+          <label for="sessionName" class="form-label">Session Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="sessionName"
+            formControlName="name"
+            placeholder="e.g., 2024-2025"
+            [class.is-invalid]="sessionForm.get('name')?.hasError('required') && sessionForm.get('name')?.touched">
           @if (sessionForm.get('name')?.hasError('required') && sessionForm.get('name')?.touched) {
-            <mat-error>Session name is required</mat-error>
+            <div class="invalid-feedback">
+              Session name is required
+            </div>
           }
-        </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Start Date</mat-label>
-          <input matInput [matDatepicker]="startPicker" formControlName="startDate">
-          <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
-          <mat-datepicker #startPicker></mat-datepicker>
+        <div class="mb-3">
+          <label for="startDate" class="form-label">Start Date</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              id="startDate"
+              placeholder="yyyy-mm-dd"
+              formControlName="startDate"
+              ngbDatepicker
+              #startDatePicker="ngbDatepicker"
+              [class.is-invalid]="sessionForm.get('startDate')?.hasError('required') && sessionForm.get('startDate')?.touched"
+              readonly>
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              (click)="startDatePicker.toggle()">
+              <i class="bi bi-calendar3"></i>
+            </button>
+          </div>
           @if (sessionForm.get('startDate')?.hasError('required') && sessionForm.get('startDate')?.touched) {
-            <mat-error>Start date is required</mat-error>
+            <div class="invalid-feedback d-block">
+              Start date is required
+            </div>
           }
-        </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>End Date</mat-label>
-          <input matInput [matDatepicker]="endPicker" formControlName="endDate">
-          <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
-          <mat-datepicker #endPicker></mat-datepicker>
+        <div class="mb-3">
+          <label for="endDate" class="form-label">End Date</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              id="endDate"
+              placeholder="yyyy-mm-dd"
+              formControlName="endDate"
+              ngbDatepicker
+              #endDatePicker="ngbDatepicker"
+              [class.is-invalid]="(sessionForm.get('endDate')?.hasError('required') || sessionForm.hasError('dateRange')) && sessionForm.get('endDate')?.touched"
+              readonly>
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              (click)="endDatePicker.toggle()">
+              <i class="bi bi-calendar3"></i>
+            </button>
+          </div>
           @if (sessionForm.get('endDate')?.hasError('required') && sessionForm.get('endDate')?.touched) {
-            <mat-error>End date is required</mat-error>
+            <div class="invalid-feedback d-block">
+              End date is required
+            </div>
           }
           @if (sessionForm.hasError('dateRange') && sessionForm.get('endDate')?.touched) {
-            <mat-error>End date must be after start date</mat-error>
+            <div class="invalid-feedback d-block">
+              End date must be after start date
+            </div>
           }
-        </mat-form-field>
+        </div>
 
-        <mat-checkbox formControlName="isCurrent" class="full-width">
-          Set as current session
-        </mat-checkbox>
+        <div class="mb-3">
+          <div class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="isCurrent"
+              formControlName="isCurrent">
+            <label class="form-check-label" for="isCurrent">
+              Set as current session
+            </label>
+          </div>
+        </div>
       </form>
-    </mat-dialog-content>
+    </div>
 
-    <mat-dialog-actions align="end">
-      <button mat-button (click)="onCancel()">Cancel</button>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
       <button
-        mat-raised-button
-        color="primary"
+        type="button"
+        class="btn btn-primary"
         (click)="onSubmit()"
         [disabled]="sessionForm.invalid || store.isLoading()">
         {{ isEditMode ? 'Update' : 'Create' }}
       </button>
-    </mat-dialog-actions>
+    </div>
   `,
   styles: [`
     .session-form {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      padding: 16px 0;
       min-width: 400px;
     }
 
-    .full-width {
-      width: 100%;
-    }
-
-    mat-dialog-content {
+    .modal-body {
       overflow: visible;
     }
 
-    mat-dialog-actions {
-      padding: 16px 0;
+    .input-group .btn {
+      border-color: #ced4da;
+    }
+
+    .input-group .btn:hover {
+      background-color: #e9ecef;
+    }
+
+    .form-label {
+      font-weight: 500;
     }
   `]
 })
 export class AcademicSessionFormComponent implements OnInit {
   protected readonly store = inject(AcademicSessionStore);
   private readonly fb = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<AcademicSessionFormComponent>);
-  private readonly data = inject<{ mode: 'create' | 'edit'; session?: AcademicSessionResponse }>(MAT_DIALOG_DATA);
+  public readonly activeModal = inject(NgbActiveModal);
+
+  @Input() mode: 'create' | 'edit' = 'create';
+  @Input() session?: AcademicSessionResponse;
 
   sessionForm!: FormGroup;
   isEditMode = false;
 
   ngOnInit(): void {
-    this.isEditMode = this.data.mode === 'edit';
+    this.isEditMode = this.mode === 'edit';
     this.initializeForm();
   }
 
   private initializeForm(): void {
-    const session = this.data.session;
-
     this.sessionForm = this.fb.group({
-      name: [session?.name || '', [Validators.required]],
-      startDate: [session?.startDate ? new Date(session.startDate) : null, [Validators.required]],
-      endDate: [session?.endDate ? new Date(session.endDate) : null, [Validators.required]],
-      isCurrent: [session?.isCurrent || false]
+      name: [this.session?.name || '', [Validators.required]],
+      startDate: [this.session?.startDate ? this.dateToNgbDateStruct(new Date(this.session.startDate)) : null, [Validators.required]],
+      endDate: [this.session?.endDate ? this.dateToNgbDateStruct(new Date(this.session.endDate)) : null, [Validators.required]],
+      isCurrent: [this.session?.isCurrent || false]
     }, {
       validators: this.dateRangeValidator
     });
@@ -138,8 +183,13 @@ export class AcademicSessionFormComponent implements OnInit {
     const startDate = form.get('startDate')?.value;
     const endDate = form.get('endDate')?.value;
 
-    if (startDate && endDate && startDate >= endDate) {
-      return { dateRange: true };
+    if (startDate && endDate) {
+      const start = new Date(startDate.year, startDate.month - 1, startDate.day);
+      const end = new Date(endDate.year, endDate.month - 1, endDate.day);
+
+      if (start >= end) {
+        return { dateRange: true };
+      }
     }
 
     return null;
@@ -149,35 +199,46 @@ export class AcademicSessionFormComponent implements OnInit {
     if (this.sessionForm.valid) {
       const formValue = this.sessionForm.value;
 
-      // Convert dates to ISO string format
+      // Convert NgbDateStruct dates to ISO string format
       const sessionData = {
         name: formValue.name,
-        startDate: this.formatDate(formValue.startDate),
-        endDate: this.formatDate(formValue.endDate),
+        startDate: this.ngbDateStructToISOString(formValue.startDate),
+        endDate: this.ngbDateStructToISOString(formValue.endDate),
         isCurrent: formValue.isCurrent
       };
 
-      if (this.isEditMode && this.data.session) {
-        this.store.updateSession({ id: this.data.session.id, data: sessionData });
+      if (this.isEditMode && this.session) {
+        this.store.updateSession({ id: this.session.id, data: sessionData });
       } else {
         this.store.createSession(sessionData);
       }
 
-      this.dialogRef.close(true);
+      this.activeModal.close(true);
     }
   }
 
   onCancel(): void {
-    this.dialogRef.close(false);
+    this.activeModal.dismiss();
   }
 
   /**
-   * Format date to ISO string (YYYY-MM-DD)
+   * Convert Date to NgbDateStruct
    */
-  private formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+  private dateToNgbDateStruct(date: Date): NgbDateStruct {
+    return {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate()
+    };
+  }
+
+  /**
+   * Convert NgbDateStruct to ISO string (YYYY-MM-DD)
+   */
+  private ngbDateStructToISOString(date: NgbDateStruct): string {
+    const year = date.year;
+    const month = String(date.month).padStart(2, '0');
+    const day = String(date.day).padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
 }

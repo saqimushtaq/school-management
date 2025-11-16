@@ -3,25 +3,25 @@
   <div class="branding-section">
     <div class="branding-content">
       <div class="school-logo">
-        <mat-icon class="logo-icon">school</mat-icon>
+        <i class="bi bi-mortarboard-fill logo-icon"></i>
       </div>
       <h1 class="brand-title">TaleemTrack</h1>
       <p class="brand-tagline">Empowering Education Through Technology</p>
       <div class="features-list">
         <div class="feature-item">
-          <mat-icon>check_circle</mat-icon>
+          <i class="bi bi-check-circle-fill"></i>
           <span>Complete Student Management</span>
         </div>
         <div class="feature-item">
-          <mat-icon>check_circle</mat-icon>
+          <i class="bi bi-check-circle-fill"></i>
           <span>Advanced Fee Management</span>
         </div>
         <div class="feature-item">
-          <mat-icon>check_circle</mat-icon>
+          <i class="bi bi-check-circle-fill"></i>
           <span>Academic Performance Tracking</span>
         </div>
         <div class="feature-item">
-          <mat-icon>check_circle</mat-icon>
+          <i class="bi bi-check-circle-fill"></i>
           <span>Staff & Payroll Management</span>
         </div>
       </div>
@@ -36,80 +36,92 @@
         <p>Sign in to your account to continue</p>
       </div>
 
-      <mat-card class="login-card">
-        <mat-card-content>
+      <div class="card login-card">
+        <div class="card-body">
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             @if (errorMessage()) {
-              <div class="error-alert">
-                <mat-icon>error_outline</mat-icon>
+              <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <i class="bi bi-exclamation-circle-fill me-2"></i>
                 <span>{{ errorMessage() }}</span>
               </div>
             }
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Username</mat-label>
-              <input
-                matInput
-                formControlName="username"
-                placeholder="Enter your username"
-                autocomplete="username"
-                [disabled]="isLoading()"
-              />
-              <mat-icon matPrefix>person</mat-icon>
-              @if (loginForm.get('username')?.invalid && loginForm.get('username')?.touched) {
-                <mat-error>{{ getErrorMessage('username') }}</mat-error>
-              }
-            </mat-form-field>
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-person"></i>
+                </span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  formControlName="username"
+                  placeholder="Enter your username"
+                  autocomplete="username"
+                  [disabled]="isLoading()"
+                  [class.is-invalid]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
+                />
+                @if (loginForm.get('username')?.invalid && loginForm.get('username')?.touched) {
+                  <div class="invalid-feedback">
+                    {{ getErrorMessage('username') }}
+                  </div>
+                }
+              </div>
+            </div>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Password</mat-label>
-              <input
-                matInput
-                [type]="hidePassword() ? 'password' : 'text'"
-                formControlName="password"
-                placeholder="Enter your password"
-                autocomplete="current-password"
-                [disabled]="isLoading()"
-              />
-              <mat-icon matPrefix>lock</mat-icon>
-              <button
-                mat-icon-button
-                matSuffix
-                type="button"
-                (click)="togglePasswordVisibility()"
-                [disabled]="isLoading()"
-              >
-                <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
-              </button>
-              @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
-                <mat-error>{{ getErrorMessage('password') }}</mat-error>
-              }
-            </mat-form-field>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-lock"></i>
+                </span>
+                <input
+                  [type]="hidePassword() ? 'password' : 'text'"
+                  class="form-control"
+                  id="password"
+                  formControlName="password"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+                  [disabled]="isLoading()"
+                  [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                />
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  (click)="togglePasswordVisibility()"
+                  [disabled]="isLoading()"
+                >
+                  <i class="bi" [class.bi-eye-slash]="hidePassword()" [class.bi-eye]="!hidePassword()"></i>
+                </button>
+                @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+                  <div class="invalid-feedback">
+                    {{ getErrorMessage('password') }}
+                  </div>
+                }
+              </div>
+            </div>
 
             <button
-              mat-raised-button
-              color="primary"
               type="submit"
-              class="login-button full-width"
+              class="btn btn-primary w-100 login-button"
               [disabled]="isLoading()"
             >
               @if (isLoading()) {
-                <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                 <span>Signing in...</span>
               } @else {
-                <ng-container>
-                  <mat-icon>login</mat-icon>
-                  <span>Sign In</span>
-                </ng-container>
+                <i class="bi bi-box-arrow-in-right me-2"></i>
+                <span>Sign In</span>
               }
             </button>
           </form>
-        </mat-card-content>
-      </mat-card>
+        </div>
+      </div>
 
       <div class="login-footer">
         <p class="copyright">
-          <mat-icon>copyright</mat-icon>
+          <i class="bi bi-c-circle"></i>
           2024 TaleemTrack. All rights reserved.
         </p>
       </div>

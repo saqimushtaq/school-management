@@ -1,33 +1,62 @@
 // ============================================================================
 // TaleemTrack - Professional School Management System Theme
+// Bootstrap 5 + Custom Styling
 // ============================================================================
 
-@use '@angular/material' as mat;
+// Import Bootstrap and Bootstrap Icons
+@use 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 
-// Include core styles
-@include mat.core();
+// ============================================================================
+// Custom CSS Variables for Theme Consistency
+// ============================================================================
 
-// Define custom theme using Material 3 (Angular Material 20)
-// Primary: Deep Blue (#005ecf) - Trust, Knowledge, Stability
-// Tertiary: Vibrant Orange (#ef9900) - Energy, Creativity, Youth
-$theme: mat.define-theme((
-  color: (
-    theme-type: light,
-    primary: mat.$blue-palette,
-    tertiary: mat.$orange-palette,
-  ),
-  typography: (
-    brand-family: 'Inter, "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    plain-family: 'Inter, "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-  ),
-  density: (
-    scale: -1
-  ),
-));
+:root {
+  // Brand Colors
+  --primary-color: #005ecf;
+  --primary-light: #4d93ff;
+  --primary-dark: #003986;
+  --accent-color: #ef9900;
+  --accent-light: #ffb547;
+  --accent-dark: #aa6400;
 
-// Apply the theme
-html {
-  @include mat.all-component-themes($theme);
+  // Semantic Colors
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --info-color: #3b82f6;
+
+  // Neutral Colors
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+
+  // Layout
+  --sidebar-width: 260px;
+  --header-height: 64px;
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --box-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --box-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  // Transitions
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Override Bootstrap primary color
+  --bs-primary: #005ecf;
+  --bs-primary-rgb: 0, 94, 207;
+  --bs-secondary: #ef9900;
+  --bs-secondary-rgb: 239, 153, 0;
 }
 
 // ============================================================================
@@ -75,238 +104,190 @@ h5 { font-size: 1.125rem; }
 h6 { font-size: 1rem; }
 
 // ============================================================================
-// Custom CSS Variables for Theme Consistency
-// ============================================================================
-
-:root {
-  // Brand Colors
-  --primary-color: #005ecf;
-  --primary-light: #4d93ff;
-  --primary-dark: #003986;
-  --accent-color: #ef9900;
-  --accent-light: #ffb547;
-  --accent-dark: #aa6400;
-
-  // Semantic Colors
-  --success-color: #10b981;
-  --warning-color: #f59e0b;
-  --danger-color: #ef4444;
-  --info-color: #3b82f6;
-
-  // Neutral Colors
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-400: #9ca3af;
-  --gray-500: #6b7280;
-  --gray-600: #4b5563;
-  --gray-700: #374151;
-  --gray-800: #1f2937;
-  --gray-900: #111827;
-
-  // Layout
-  --sidebar-width: 260px;
-  --header-height: 64px;
-  --border-radius: 8px;
-  --border-radius-lg: 12px;
-  --box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --box-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --box-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-
-  // Transitions
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-// ============================================================================
-// Material Component Overrides
+// Bootstrap Component Overrides
 // ============================================================================
 
 // Cards
-.mat-mdc-card {
-  border-radius: var(--border-radius-lg) !important;
-  box-shadow: var(--box-shadow) !important;
-  border: 1px solid var(--gray-200) !important;
+.card {
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--gray-200);
 
   &:hover {
-    box-shadow: var(--box-shadow-md) !important;
+    box-shadow: var(--box-shadow-md);
     transition: box-shadow var(--transition-base);
   }
 }
 
-.mat-mdc-card-header {
-  padding: 20px 24px !important;
+.card-header {
+  padding: 20px 24px;
   border-bottom: 1px solid var(--gray-200);
   background-color: var(--gray-50);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--gray-900);
 }
 
-.mat-mdc-card-content {
-  padding: 24px !important;
-}
-
-.mat-mdc-card-title {
-  font-size: 1.25rem !important;
-  font-weight: 600 !important;
-  color: var(--gray-900) !important;
+.card-body {
+  padding: 24px;
 }
 
 // Buttons
-.mat-mdc-raised-button {
-  border-radius: var(--border-radius) !important;
-  font-weight: 500 !important;
-  text-transform: none !important;
-  padding: 8px 20px !important;
-  box-shadow: var(--box-shadow) !important;
+.btn {
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  text-transform: none;
+  padding: 8px 20px;
+  transition: all var(--transition-base);
 
   &:hover {
-    box-shadow: var(--box-shadow-md) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--box-shadow-md);
   }
 }
 
-.mat-mdc-button, .mat-mdc-outlined-button {
-  border-radius: var(--border-radius) !important;
-  font-weight: 500 !important;
-  text-transform: none !important;
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 6px -1px rgba(0, 94, 207, 0.3);
+
+  &:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    box-shadow: 0 8px 12px -2px rgba(0, 94, 207, 0.4);
+  }
 }
 
-// Form Fields
-.mat-mdc-form-field {
-  .mdc-text-field--outlined {
-    border-radius: var(--border-radius) !important;
+// Form Controls
+.form-control, .form-select {
+  border-radius: var(--border-radius);
+  border: 1px solid var(--gray-300);
+  padding: 10px 14px;
+
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(0, 94, 207, 0.25);
   }
+}
+
+.form-label {
+  font-weight: 500;
+  color: var(--gray-700);
+  margin-bottom: 0.5rem;
 }
 
 // Tables
-.mat-mdc-table {
-  border-radius: var(--border-radius) !important;
+.table {
+  border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: var(--box-shadow);
 
-  .mat-mdc-header-row {
+  thead {
     background-color: var(--gray-50);
-  }
 
-  .mat-mdc-header-cell {
-    font-weight: 600 !important;
-    color: var(--gray-700) !important;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .mat-mdc-row {
-    &:hover {
-      background-color: var(--gray-50);
+    th {
+      font-weight: 600;
+      color: var(--gray-700);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid var(--gray-200);
     }
   }
 
-  .mat-mdc-cell {
-    color: var(--gray-900);
+  tbody {
+    tr {
+      &:hover {
+        background-color: var(--gray-50);
+      }
+    }
+
+    td {
+      color: var(--gray-900);
+      vertical-align: middle;
+    }
   }
 }
 
-// Toolbar
-.mat-toolbar {
-  box-shadow: var(--box-shadow-md) !important;
+// Badges
+.badge {
+  border-radius: 6px;
+  font-weight: 500;
+  padding: 0.35em 0.65em;
 }
 
-// Chips
-.mat-mdc-chip {
-  border-radius: 6px !important;
-  font-weight: 500 !important;
+// Modals
+.modal-content {
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-lg);
+  border: 1px solid var(--gray-200);
+}
+
+.modal-header {
+  background-color: var(--gray-50);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 20px 24px;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-footer {
+  background-color: var(--gray-50);
+  border-top: 1px solid var(--gray-200);
+  padding: 16px 24px;
+}
+
+// Navbar/Header
+.navbar {
+  box-shadow: var(--box-shadow-md);
+}
+
+// Dropdown
+.dropdown-menu {
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-lg);
+  border: 1px solid var(--gray-200);
+}
+
+.dropdown-item {
+  &:hover {
+    background-color: var(--gray-100);
+  }
+
+  &:active {
+    background-color: var(--primary-color);
+  }
 }
 
 // ============================================================================
-// Utility Classes
+// Custom Utility Classes
 // ============================================================================
 
-// Spacing
-.p-0 { padding: 0 !important; }
-.p-1 { padding: 0.25rem !important; }
-.p-2 { padding: 0.5rem !important; }
-.p-3 { padding: 0.75rem !important; }
-.p-4 { padding: 1rem !important; }
-.p-5 { padding: 1.5rem !important; }
-.p-6 { padding: 2rem !important; }
-
-.m-0 { margin: 0 !important; }
-.m-1 { margin: 0.25rem !important; }
-.m-2 { margin: 0.5rem !important; }
-.m-3 { margin: 0.75rem !important; }
-.m-4 { margin: 1rem !important; }
-.m-5 { margin: 1.5rem !important; }
-.m-6 { margin: 2rem !important; }
-
-.mt-0 { margin-top: 0 !important; }
-.mt-2 { margin-top: 0.5rem !important; }
-.mt-4 { margin-top: 1rem !important; }
-.mb-0 { margin-bottom: 0 !important; }
-.mb-2 { margin-bottom: 0.5rem !important; }
-.mb-4 { margin-bottom: 1rem !important; }
-
-// Display
-.d-flex { display: flex !important; }
-.d-block { display: block !important; }
-.d-inline-block { display: inline-block !important; }
-.d-none { display: none !important; }
-
-// Flex
-.flex-row { flex-direction: row !important; }
-.flex-column { flex-direction: column !important; }
-.justify-content-start { justify-content: flex-start !important; }
-.justify-content-center { justify-content: center !important; }
-.justify-content-end { justify-content: flex-end !important; }
-.justify-content-between { justify-content: space-between !important; }
-.align-items-start { align-items: flex-start !important; }
-.align-items-center { align-items: center !important; }
-.align-items-end { align-items: flex-end !important; }
-.gap-1 { gap: 0.25rem !important; }
-.gap-2 { gap: 0.5rem !important; }
-.gap-3 { gap: 0.75rem !important; }
-.gap-4 { gap: 1rem !important; }
-
-// Text
-.text-left { text-align: left !important; }
-.text-center { text-align: center !important; }
-.text-right { text-align: right !important; }
-.text-primary { color: var(--primary-color) !important; }
-.text-accent { color: var(--accent-color) !important; }
-.text-success { color: var(--success-color) !important; }
-.text-warning { color: var(--warning-color) !important; }
-.text-danger { color: var(--danger-color) !important; }
-.text-muted { color: var(--gray-500) !important; }
-
-// Backgrounds
-.bg-white { background-color: #ffffff !important; }
-.bg-gray-50 { background-color: var(--gray-50) !important; }
-.bg-gray-100 { background-color: var(--gray-100) !important; }
-.bg-primary { background-color: var(--primary-color) !important; }
-.bg-accent { background-color: var(--accent-color) !important; }
-
-// Borders
-.border { border: 1px solid var(--gray-200) !important; }
-.border-top { border-top: 1px solid var(--gray-200) !important; }
-.border-bottom { border-bottom: 1px solid var(--gray-200) !important; }
-.rounded { border-radius: var(--border-radius) !important; }
-.rounded-lg { border-radius: var(--border-radius-lg) !important; }
+// Spacing (Bootstrap already provides these, but adding for consistency)
+.gap-1 { gap: 0.25rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
 
 // Shadows
-.shadow { box-shadow: var(--box-shadow) !important; }
-.shadow-md { box-shadow: var(--box-shadow-md) !important; }
-.shadow-lg { box-shadow: var(--box-shadow-lg) !important; }
-.shadow-none { box-shadow: none !important; }
+.shadow { box-shadow: var(--box-shadow); }
+.shadow-md { box-shadow: var(--box-shadow-md); }
+.shadow-lg { box-shadow: var(--box-shadow-lg); }
+.shadow-none { box-shadow: none; }
 
-// Width
-.w-100 { width: 100% !important; }
-.w-auto { width: auto !important; }
-
-// Font Weight
-.fw-normal { font-weight: 400 !important; }
-.fw-medium { font-weight: 500 !important; }
-.fw-semibold { font-weight: 600 !important; }
-.fw-bold { font-weight: 700 !important; }
+// Custom Colors
+.text-primary-custom { color: var(--primary-color); }
+.text-accent { color: var(--accent-color); }
+.bg-primary-custom { background-color: var(--primary-color); }
+.bg-accent { background-color: var(--accent-color); }
 
 // ============================================================================
 // Scrollbar Styling
@@ -328,6 +309,16 @@ h6 { font-size: 1rem; }
   &:hover {
     background: var(--gray-500);
   }
+}
+
+// ============================================================================
+// Loading Spinner
+// ============================================================================
+
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.15em;
 }
 
 // ============================================================================
