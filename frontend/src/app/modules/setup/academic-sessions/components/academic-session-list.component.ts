@@ -1,18 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AcademicSessionStore } from '../store/academic-session.store';
 import { AcademicSessionResponse } from '../models/academic-session.model';
 import { AcademicSessionFormComponent } from './academic-session-form.component';
-import {provideNativeDateAdapter} from '@angular/material/core';
 
 /**
  * Component to display list of Academic Sessions
@@ -21,115 +13,119 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 @Component({
   selector: 'app-academic-session-list',
   imports: [
-    CommonModule,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatChipsModule,
-    MatProgressSpinnerModule,
-    MatSnackBarModule,
-    MatDialogModule
+    CommonModule
   ],
-  providers: [provideNativeDateAdapter()],
   template: `
     <div class="session-list-container">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Academic Sessions</mat-card-title>
-          <div class="header-actions">
-            <button mat-raised-button color="primary" (click)="openCreateDialog()">
-              <mat-icon>add</mat-icon>
-              Create Session
-            </button>
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Academic Sessions</h4>
+            <div class="header-actions">
+              <button type="button" class="btn btn-primary" (click)="openCreateDialog()">
+                <i class="bi bi-plus-circle me-2"></i>
+                Create Session
+              </button>
+            </div>
           </div>
-        </mat-card-header>
+        </div>
 
-        <mat-card-content>
+        <div class="card-body">
           @if (store.isLoading()) {
             <div class="loading-container">
-              <mat-spinner></mat-spinner>
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
             </div>
           } @else if (store.error()) {
             <div class="error-container">
-              <p class="error-message">{{ store.error() }}</p>
-              <button mat-button color="primary" (click)="loadSessions()">Retry</button>
+              <p class="error-message text-danger">{{ store.error() }}</p>
+              <button type="button" class="btn btn-primary" (click)="loadSessions()">Retry</button>
             </div>
           } @else {
-            <table mat-table [dataSource]="store.sessions()" class="sessions-table">
-              <!-- Name Column -->
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Session Name</th>
-                <td mat-cell *matCellDef="let session">{{ session.name }}</td>
-              </ng-container>
-
-              <!-- Start Date Column -->
-              <ng-container matColumnDef="startDate">
-                <th mat-header-cell *matHeaderCellDef>Start Date</th>
-                <td mat-cell *matCellDef="let session">{{ session.startDate | date: 'mediumDate' }}</td>
-              </ng-container>
-
-              <!-- End Date Column -->
-              <ng-container matColumnDef="endDate">
-                <th mat-header-cell *matHeaderCellDef>End Date</th>
-                <td mat-cell *matCellDef="let session">{{ session.endDate | date: 'mediumDate' }}</td>
-              </ng-container>
-
-              <!-- Current Status Column -->
-              <ng-container matColumnDef="isCurrent">
-                <th mat-header-cell *matHeaderCellDef>Status</th>
-                <td mat-cell *matCellDef="let session">
-                  @if (session.isCurrent) {
-                    <mat-chip class="current-chip">Current</mat-chip>
-                  } @else {
-                    <button
-                      mat-stroked-button
-                      color="accent"
-                      (click)="setAsCurrent(session.id)"
-                      [disabled]="store.isLoading()">
-                      Set as Current
-                    </button>
-                  }
-                </td>
-              </ng-container>
-
-              <!-- Actions Column -->
-              <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef>Actions</th>
-                <td mat-cell *matCellDef="let session">
-                  <button
-                    mat-icon-button
-                    color="primary"
-                    (click)="openEditDialog(session)"
-                    [disabled]="store.isLoading()">
-                    <mat-icon>edit</mat-icon>
-                  </button>
-                  <button
-                    mat-icon-button
-                    color="warn"
-                    (click)="deleteSession(session)"
-                    [disabled]="store.isLoading() || session.isCurrent">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-
-            @if (store.sessions().length === 0) {
+            @if (store.sessions().length > 0) {
+              <div class="table-responsive">
+                <table class="table table-hover sessions-table">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Session Name</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (session of store.sessions(); track session.id) {
+                      <tr>
+                        <td>{{ session.name }}</td>
+                        <td>{{ session.startDate | date: 'mediumDate' }}</td>
+                        <td>{{ session.endDate | date: 'mediumDate' }}</td>
+                        <td>
+                          @if (session.isCurrent) {
+                            <span class="badge bg-success">Current</span>
+                          } @else {
+                            <button
+                              type="button"
+                              class="btn btn-sm btn-outline-primary"
+                              (click)="setAsCurrent(session.id)"
+                              [disabled]="store.isLoading()">
+                              Set as Current
+                            </button>
+                          }
+                        </td>
+                        <td>
+                          <div class="btn-group" role="group">
+                            <button
+                              type="button"
+                              class="btn btn-sm btn-outline-primary"
+                              (click)="openEditDialog(session)"
+                              [disabled]="store.isLoading()"
+                              title="Edit">
+                              <i class="bi bi-pencil"></i>
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-sm btn-outline-danger"
+                              (click)="deleteSession(session)"
+                              [disabled]="store.isLoading() || session.isCurrent"
+                              title="Delete">
+                              <i class="bi bi-trash"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            } @else {
               <div class="empty-state">
-                <mat-icon>school</mat-icon>
+                <i class="bi bi-book empty-icon"></i>
                 <p>No academic sessions found</p>
-                <button mat-raised-button color="primary" (click)="openCreateDialog()">
+                <button type="button" class="btn btn-primary" (click)="openCreateDialog()">
                   Create First Session
                 </button>
               </div>
             }
           }
-        </mat-card-content>
-      </mat-card>
+        </div>
+      </div>
+
+      <!-- Toast Container -->
+      @if (showToast) {
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+          <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <strong class="me-auto">{{ toastTitle }}</strong>
+              <button type="button" class="btn-close" (click)="hideToast()"></button>
+            </div>
+            <div class="toast-body">
+              {{ toastMessage }}
+            </div>
+          </div>
+        </div>
+      }
     </div>
   `,
   styles: [`
@@ -139,11 +135,10 @@ import {provideNativeDateAdapter} from '@angular/material/core';
       margin: 0 auto;
     }
 
-    mat-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
+    .card-header {
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #dee2e6;
+      padding: 1rem 1.5rem;
     }
 
     .header-actions {
@@ -152,8 +147,7 @@ import {provideNativeDateAdapter} from '@angular/material/core';
     }
 
     .sessions-table {
-      width: 100%;
-      margin-top: 16px;
+      margin-top: 0;
     }
 
     .loading-container {
@@ -171,7 +165,6 @@ import {provideNativeDateAdapter} from '@angular/material/core';
     }
 
     .error-message {
-      color: #f44336;
       margin: 0;
     }
 
@@ -182,10 +175,8 @@ import {provideNativeDateAdapter} from '@angular/material/core';
       padding: 48px;
       gap: 16px;
 
-      mat-icon {
+      .empty-icon {
         font-size: 64px;
-        width: 64px;
-        height: 64px;
         color: rgba(0, 0, 0, 0.26);
       }
 
@@ -195,18 +186,26 @@ import {provideNativeDateAdapter} from '@angular/material/core';
       }
     }
 
-    .current-chip {
-      background-color: #4caf50;
-      color: white;
+    .btn-group {
+      gap: 4px;
+    }
+
+    .toast-container {
+      z-index: 1050;
+    }
+
+    .toast {
+      min-width: 250px;
     }
   `]
 })
 export class AcademicSessionListComponent implements OnInit {
   protected readonly store = inject(AcademicSessionStore);
-  private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly modalService = inject(NgbModal);
 
-  displayedColumns: string[] = ['name', 'startDate', 'endDate', 'isCurrent', 'actions'];
+  showToast = false;
+  toastTitle = '';
+  toastMessage = '';
 
   ngOnInit(): void {
     this.loadSessions();
@@ -217,40 +216,66 @@ export class AcademicSessionListComponent implements OnInit {
   }
 
   openCreateDialog(): void {
-    const dialogRef = this.dialog.open(AcademicSessionFormComponent, {
-      width: '600px',
-      data: { mode: 'create' }
+    const modalRef = this.modalService.open(AcademicSessionFormComponent, {
+      size: 'lg',
+      centered: true
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.snackBar.open('Session created successfully', 'Close', { duration: 3000 });
+    modalRef.componentInstance.mode = 'create';
+
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          this.displayToast('Success', 'Session created successfully');
+        }
+      },
+      () => {
+        // Modal dismissed
       }
-    });
+    );
   }
 
   openEditDialog(session: AcademicSessionResponse): void {
-    const dialogRef = this.dialog.open(AcademicSessionFormComponent, {
-      width: '600px',
-      data: { mode: 'edit', session }
+    const modalRef = this.modalService.open(AcademicSessionFormComponent, {
+      size: 'lg',
+      centered: true
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.snackBar.open('Session updated successfully', 'Close', { duration: 3000 });
+    modalRef.componentInstance.mode = 'edit';
+    modalRef.componentInstance.session = session;
+
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          this.displayToast('Success', 'Session updated successfully');
+        }
+      },
+      () => {
+        // Modal dismissed
       }
-    });
+    );
   }
 
   setAsCurrent(id: number): void {
     this.store.setCurrentSession(id);
-    this.snackBar.open('Current session updated', 'Close', { duration: 3000 });
+    this.displayToast('Success', 'Current session updated');
   }
 
   deleteSession(session: AcademicSessionResponse): void {
     if (confirm(`Are you sure you want to delete "${session.name}"?`)) {
       this.store.deleteSession(session.id);
-      this.snackBar.open('Session deleted successfully', 'Close', { duration: 3000 });
+      this.displayToast('Success', 'Session deleted successfully');
     }
+  }
+
+  private displayToast(title: string, message: string): void {
+    this.toastTitle = title;
+    this.toastMessage = message;
+    this.showToast = true;
+    setTimeout(() => this.hideToast(), 3000);
+  }
+
+  hideToast(): void {
+    this.showToast = false;
   }
 }

@@ -1,12 +1,7 @@
 import { Component, inject, computed, signal } from '@angular/core';
 import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatBadgeModule } from '@angular/material/badge';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from './core/auth/services/auth.service';
 
 @Component({
@@ -16,12 +11,7 @@ import { AuthService } from './core/auth/services/auth.service';
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatDividerModule,
-    MatBadgeModule
+    NgbDropdownModule
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'

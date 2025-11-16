@@ -116,10 +116,9 @@
   cursor: pointer;
   position: relative;
 
-  mat-icon {
+  i {
     font-size: 20px;
     width: 20px;
-    height: 20px;
     flex-shrink: 0;
   }
 
@@ -134,7 +133,7 @@
     color: var(--primary-color);
     transform: translateX(4px);
 
-    mat-icon {
+    i {
       color: var(--primary-color);
     }
   }
@@ -145,7 +144,7 @@
     font-weight: 600;
     box-shadow: inset 3px 0 0 var(--primary-color);
 
-    mat-icon {
+    i {
       color: var(--primary-color);
     }
   }
@@ -169,7 +168,7 @@
       color: var(--primary-color);
     }
 
-    mat-icon {
+    i {
       transition: transform var(--transition-base);
     }
   }
@@ -254,10 +253,8 @@
   }
 
   .user-avatar {
-    mat-icon {
+    i {
       font-size: 36px;
-      width: 36px;
-      height: 36px;
       color: var(--gray-500);
     }
   }
@@ -285,9 +282,7 @@
 
   .dropdown-icon {
     color: var(--gray-500);
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
+    font-size: 16px;
   }
 }
 
@@ -302,10 +297,8 @@
     margin: -8px -8px 8px -8px;
 
     .user-avatar-large {
-      mat-icon {
+      i {
         font-size: 48px;
-        width: 48px;
-        height: 48px;
         color: white;
       }
     }
@@ -329,10 +322,16 @@
   .logout-item {
     color: var(--danger-color);
 
-    mat-icon {
+    i {
       color: var(--danger-color);
+      margin-right: 8px;
     }
   }
+}
+
+// Dropdown item icon spacing
+button[ngbDropdownItem] i {
+  margin-right: 8px;
 }
 
 // ============================================================================
